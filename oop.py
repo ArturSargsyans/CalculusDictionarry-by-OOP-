@@ -1,54 +1,63 @@
 import json
 
-class Chapter:
-    def __init__(self, name):
-        self.name = name
-        self.categories = chapters[name]
+class ChapterManager:
+    
+    def __init__(self):
+        self.chapters = []
 
-    def ChooseCategory(self):
-        for category in self.categories:
-            print(category)
-        chosencat = input("Choose the category")
-        return chosencat
-
-    @staticmethod
-    def LoadChapters():
+    def loadChapters(self):
         global chapters
         with open("cd_data.json") as data_file:
             chapters = json.load(data_file)
-        return chapters
+            for key in chapters:
+                tmpChapter = Chapter(key)
 
-    @staticmethod
-    def ChooseTheChapter():
+                for cat in chapters[key]:
+                    tmpChapter.addCategory(cat, chapters[key][cat])
+
+                self.chapters.append(tmpChapter)
+
+    def printAllChapters(self):
         print("here are the available chapters")
-        chapters = Chapter.LoadChapters()
-        for key in chapters:
-            print(key)
-        nameofchap = input("choose the chapter you want")
-        return nameofchap
+        for chapter in self.chapters:
+            chapter.display()
 
+    def returnChapter(self, name):
+        print("here are the available chapters")
+        for key in self.chapters:
+            if (key == name):
+                chapter = Chapter(name)
+        return 0
 
+class Chapter:
+    def __init__(self, name, categories=[]):
+        self.name = name
+        self.categories = categories
 
+    def addCategory(self, name, data):
+        tmpCat = Category(name, data)
+        self.categories.append(tmpCat)
+
+    def display(self):
+        print(self.name, "\n", "-----")
+        for cat in self.categories:
+            cat.display()
 
 class Category:
 
-    def __init__(self, type, chapter):
-        self.type = type
-        self.listofstatements = chapter[type]
+    def __init__(self, name, statements={}):
+        self.name = name
+        self.statements = statements
 
-
-    def ChooseAstatement(self):
-        for statement in self.listofstatements:
-            print(statement)
-        chosenstateName = input("Choose among these")
-        chosenstate = self.listofstatements[chosenstateName]
-        print(chosenstate)
+    def display(self):
+        print("**************", self.name, "******************")
+        for key in self.statements:
+            print(key, ":", self.statements[key])
 
 def main():
-    name = Chapter.ChooseTheChapter()
-    currentchapter = Chapter(name)
-    currcattype= Chapter.ChooseCategory(currentchapter)
-    currcat = Category(currcattype, currentchapter.categories)
-    Category.ChooseAstatement(currcat)
+    myCalculusDictionary = ChapterManager()
+    myCalculusDictionary.loadChapters()
+
+    myCalculusDictionary.printAllChapters()
 
 main()
