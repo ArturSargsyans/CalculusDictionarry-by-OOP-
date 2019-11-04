@@ -13,7 +13,7 @@ class ChapterManager:
         with open("cd_data.json") as data_file:
             chapters = json.load(data_file)
             for key in chapters:
-                tmpChapter = Chapter(key)
+                tmpChapter = Chapter(key, [])
 
                 for cat in chapters[key]:
                     tmpChapter.addCategory(cat, chapters[key][cat])

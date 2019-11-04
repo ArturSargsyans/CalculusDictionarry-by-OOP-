@@ -10,7 +10,7 @@ class ChapterManager:
         with open("cd_data.json") as data_file:
             chapters = json.load(data_file)
             for key in chapters:
-                tmpChapter = Chapter(key)
+                tmpChapter = Chapter(key, [])
 
                 for cat in chapters[key]:
                     tmpChapter.addCategory(cat, chapters[key][cat])
@@ -26,11 +26,11 @@ class ChapterManager:
         print("here are the available chapters")
         for key in self.chapters:
             if (key == name):
-                chapter = Chapter(name)
+                chapter = Chapter(name, [])
         return 0
 
 class Chapter:
-    def __init__(self, name, categories=[]):
+    def __init__(self, name, categories):
         self.name = name
         self.categories = categories
 
