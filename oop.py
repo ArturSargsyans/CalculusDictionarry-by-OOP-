@@ -57,7 +57,6 @@ class Category:
 def main():
     myCalculusDictionary = ChapterManager()
     myCalculusDictionary.loadChapters()
-
     myCalculusDictionary.printAllChapters()
 
 main()
