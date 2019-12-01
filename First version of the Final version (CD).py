@@ -1,10 +1,45 @@
 import json
 
+class LinkedList():
+    def __init__(self):
+        self.head = None
+
+    def add(self, node):
+        if self.head == None:
+            self.head = node
+        else:
+            tmp = self.head
+            while tmp.next != None:
+                tmp = tmp.next
+
+            tmp.next = node
+
+    def _display(self, currhead):
+        if currhead != None:
+            print("\n", currhead.name)
+            if currhead.next != None:
+                self._display(currhead.next)
+            else:
+                return
+
+    def display(self):
+        self._display(self.head)
+
+    def find(self, nodename):
+        tmp = self.head
+        while tmp != None:
+            if tmp.name == nodename:
+                return tmp
+            tmp = tmp.next
+
+        return None
+
 class Chapter:
 
     def __init__(self, name, categories):
         self.name = name
         self.categories = categories
+        self.next = None
 
     def addCategory(self, name, data):
         tmpCat = Category(name, data)
@@ -28,11 +63,10 @@ class Category:
             print(key)
 
 
-
 class ChapterManager:
 
     def __init__(self):
-        self.chapters = []
+        self.chapters = LinkedList()
         self.chosenchapter = []
         self.chosencategory = None
 
@@ -46,41 +80,37 @@ class ChapterManager:
                 for cat in chapters[key]:
                     tmpChapter.addCategory(cat, chapters[key][cat])
 
-                self.chapters.append(tmpChapter)
+                self.chapters.add(tmpChapter)
 
     def Introduction(self):
         print("Hello, welcome to Calculus Dictionary.\n\nHere you can learn, and review calculus matterial in an easy way")
-        if input("type 'go' to start working. Type 'exit' to exit") == 'exit':
+        if input("\nType 'go' to start working. Type 'exit' to exit") == 'exit':
             quit()
         else:
             return True
 
     def printAllChapters(self):
-        print("Here are the available chapters")
-        for chapter in self.chapters:
-            print("\n", "***", chapter.name, "***")
+        print("\nHere are the available chapters")
+        self.chapters.display()
 
     def printAllCategories(self):
-        print("here are the categories")
+        print("\nHere are the categories")
         for category in self.chosenchapter:
             print("\n", "***", category.name, "***")
 
 
     def ChooseChapter(self):
-        x = 1
-        while x == 1:
+        while True:
             chaptername = input("\nPlease enter the name of the chapter you want. Type 'exit' to exit")
             if chaptername == 'exit':
                 quit()
-            for chapter in self.chapters:
-                if chaptername == chapter.name:
-                    self.chosenchapter = chapter.categories
-                    x = 2
-                    break
+            else:
+                self.chosenchapter = self.chapters.find(chaptername).categories
+                break
 
     def ChooseCategory(self):
             while True:
-                categoryname = input("Enter the name of the category, type exit to exit")
+                categoryname = input("\nEnter the name of the category, type exit to exit")
                 if categoryname == "exit":
                     quit()
                 else:
@@ -93,12 +123,21 @@ class ChapterManager:
         self.chosencategory.displayStatements()
 
     def ChooseStatement(self):
-        nameofStatement = input("Write the name of the" + self.chosencategory.name + "that you want. If you want to exit type 'exit'")
+        nameofStatement = input("\nWrite the name of the" + self.chosencategory.name + "that you want. If you want to exit type 'exit'")
         if nameofStatement == 'exit':
             quit()
         for statement in self.chosencategory.statements:
             if nameofStatement == statement:
                 print("\n", self.chosencategory.statements[statement])
+                while True:
+                    contorquit = input("\n\ntype 'continue' to go back to chapters. Type 'exit' to exit")
+                    if contorquit == 'continue':
+                        return True
+                    elif contorquit == 'exit':
+                        quit()
+                    else:
+                        print("\npleas follow the instructions")
+
 
 
 def main():
@@ -112,6 +151,7 @@ def main():
             myCalculusDictionary.ChooseCategory()
             myCalculusDictionary.printAllStatements()
             myCalculusDictionary.ChooseStatement()
+
 
 
 main()

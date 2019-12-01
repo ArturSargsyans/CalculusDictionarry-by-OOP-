@@ -1,7 +1,7 @@
 {
   "Limits and Derivatives": {
     "definition": {
-      "definition of limit": "Suppose f(x) is defined when is near the number . (This means\nthat is defined on some open interval that contains , except possibly at itself.)\nThen we write lim\nxla\nf \u0002x\u0003 \u0002 = L \nand say “the limit of f(x), as x approaches a, equals L”\nif we can make the values of f(x) arbitrarily close to L (as close to L as we like) by\ntaking x to be sufficiently close to a (on either side of a) but not equal to a."
+      "definition of limit": "Suppose f(x) is defined when is near the number . (This means\nthat is defined on some open interval that contains , except possibly at itself.)\nThen we write lim\nxla\nf \u0002x\u0003 \u0002 = L \nand say \u0432\u0402\u045athe limit of f(x), as x approaches a, equals L\u0432\u0402\u045c\nif we can make the values of f(x) arbitrarily close to L (as close to L as we like) by\ntaking x to be sufficiently close to a (on either side of a) but not equal to a."
     },
     "theorem": {},
     "law": {},
@@ -10,27 +10,32 @@
   },
   "Differentiation": {
     "definition": {},
-    "theorem": {
-      "theorem1": "asdasd",
-      "theorem2": "asdasdasd"
-    },
+    "theorem": {},
     "law": {},
     "exercise": {},
     "rule": {}
   },
   "Integrals": {
     "definition": {
-      "Definition of indefinit Integral" : "Given a function, f(x), an anti-derivative of f(x) is any function F(x) such that...",
-      "Definition of definit Integral" : "Given a function f(x) that is continuous on the interval [a,b] ..."
+      "Definition of a Definite Integral": "if f is a function defined for a<=x<=b ....",
+      "Definition of the Area of the region": "The area A of the region S that lies under the graph of the continuous..."
     },
     "theorem": {
-      "Fundamental Theorem of Calculus": "The first fundamental theorem of calculus states that, if f is continuous on the closed interval [a,b] and F is the indefinite ..."
+      "Theorem1": "If f is integrable on [a,b] then ...",
+      "Theorem2: Fundamental Theorem of Calculus (part1)": "If f is continuous on [a,b] then the function g defined by ..."
     },
-    "law": {},
-    "exercise": {},
-    "rule": {}
+    "law": {
+      "Alex law": "\\ya dartanyan vse pidorasi"
+    },
+    "exercise": {
+      "Exercise1": "Draw the line y = 2t+1 and use geometry to find the area under this line above the t-axis and between the vertical lines t ==1 and t==4",
+      "Exercise2": "If x>1, let A(x) be the area of the region that lies under the line y =2t+1 between t ==1 and t ==x. Sketch this region and use geometry to finf an expression for A(x)"
+    },
+    "rule": {
+      "Midpoint Rule": "If definit integral of f from a to be is..."
+    }
   },
-  "Vectors": {
+  "Vectors and the Geometry of Space": {
     "definitions": {},
     "theorems": {},
     "laws": {},
