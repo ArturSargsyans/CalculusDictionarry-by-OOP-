@@ -1,6 +1,52 @@
 import json
 
-class LinkedList():
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, node):
+        if self.root == None:
+            self.root = node
+        else:
+            self._insert(node, self.root)
+
+    def _insert(self, node, curroot):
+        if node.value < curroot.value:
+            if curroot.left == None:
+                curroot.left = node
+            else:
+                self._insert(node, curroot.left)
+        elif node.value > curroot.value:
+            if curroot.right == None:
+                curroot.right = node
+            else:
+                self._insert(node, curroot.right)
+        else:
+            pass
+
+    def _display(self, curroot):
+        if curroot != None:
+            print("\n", "**", curroot.name, "**")
+            self._display(curroot.left)
+            self._display(curroot.right)
+
+    def display(self):
+        self._display(self.root)
+
+    def _find(self, nodename, curroot):
+        if curroot == None:
+            return False
+        if curroot.name == nodename:
+            return curroot
+        canditate1 = self._find(nodename, curroot.left)
+        canditate2 = self._find(nodename, curroot.right)
+        return canditate1  or canditate2
+
+    def find(self, nodename):
+        return self._find(nodename, self.root)
+
+
+class LinkedList:
     def __init__(self):
         self.head = None
 
@@ -36,10 +82,21 @@ class LinkedList():
 
 class Chapter:
 
-    def __init__(self, name, categories):
+    def __init__(self, name, categories, value):
         self.name = name
         self.categories = categories
+        self.value = value
         self.next = None
+        self.right = None
+        self.left = None
+
+    def GenerateValue(self):
+        asci = 0
+        for letter in self.name:
+            asci = (asci + ord(letter)) % len(self.name)
+        self.value = asci
+
+
 
     def addCategory(self, name, data):
         tmpCat = Category(name, data)
@@ -66,21 +123,33 @@ class Category:
 class ChapterManager:
 
     def __init__(self):
-        self.chapters = LinkedList()
+        self.chaptersbylinkedlist = LinkedList()
+        self.chaptersTree = BST()
         self.chosenchapter = []
         self.chosencategory = None
 
 
-    def loadChapters(self):
+    def loadChaptersinLinkedlist(self):
         with open("cd_data.json") as data_file:
             chapters = json.load(data_file)
             for key in chapters:
-                tmpChapter = Chapter(key, [])
+                tmpChapter = Chapter(key, [], value=None)
 
                 for cat in chapters[key]:
                     tmpChapter.addCategory(cat, chapters[key][cat])
 
-                self.chapters.add(tmpChapter)
+                self.chaptersbylinkedlist.add(tmpChapter)
+
+    def loadChaptersinTree(self):
+        with open("cd_data.json") as data_file:
+            chapters = json.load(data_file)
+            for key in chapters:
+                tmpChapter = Chapter(key, [], value=None)
+                for cat in chapters[key]:
+                    tmpChapter.addCategory(cat, chapters[key][cat])
+                    tmpChapter.GenerateValue()
+
+                self.chaptersTree.insert(tmpChapter)
 
     def Introduction(self):
         print("Hello, welcome to Calculus Dictionary.\n\nHere you can learn, and review calculus matterial in an easy way")
@@ -89,9 +158,13 @@ class ChapterManager:
         else:
             return True
 
-    def printAllChapters(self):
+    def printAllChaptersinLinkedList(self):
         print("\nHere are the available chapters")
-        self.chapters.display()
+        self.chaptersbylinkedlist.display()
+
+    def printAllChaptersinTree(self):
+        print("\nHere are the available chapters")
+        self.chaptersTree.display()
 
     def printAllCategories(self):
         print("\nHere are the categories")
@@ -99,13 +172,22 @@ class ChapterManager:
             print("\n", "***", category.name, "***")
 
 
-    def ChooseChapter(self):
+    def ChooseChapterinLinkedList(self):
         while True:
             chaptername = input("\nPlease enter the name of the chapter you want. Type 'exit' to exit")
             if chaptername == 'exit':
                 quit()
             else:
-                self.chosenchapter = self.chapters.find(chaptername).categories
+                self.chosenchapter = self.chaptersbylinkedlist.find(chaptername).categories
+                break
+
+    def ChooseChapterinTree(self):
+        while True:
+            chaptername = input("\nPlease enter the name of the chapter you want. Type 'exit' to exit")
+            if chaptername == 'exit':
+                quit()
+            else:
+                self.chosenchapter = self.chaptersTree.find(chaptername).categories
                 break
 
     def ChooseCategory(self):
@@ -134,6 +216,7 @@ class ChapterManager:
                     if contorquit == 'continue':
                         return True
                     elif contorquit == 'exit':
+                        print("Thank you, bye")
                         quit()
                     else:
                         print("\npleas follow the instructions")
@@ -143,14 +226,24 @@ class ChapterManager:
 def main():
     myCalculusDictionary = ChapterManager()
     if myCalculusDictionary.Introduction():
-        while True:
-            myCalculusDictionary.loadChapters()
-            myCalculusDictionary.printAllChapters()
-            myCalculusDictionary.ChooseChapter()
-            myCalculusDictionary.printAllCategories()
-            myCalculusDictionary.ChooseCategory()
-            myCalculusDictionary.printAllStatements()
-            myCalculusDictionary.ChooseStatement()
+        if input("linkedlist or tree") == "tree":
+            while True:
+                myCalculusDictionary.loadChaptersinTree()
+                myCalculusDictionary.printAllChaptersinTree()
+                myCalculusDictionary.ChooseChapterinTree()
+                myCalculusDictionary.printAllCategories()
+                myCalculusDictionary.ChooseCategory()
+                myCalculusDictionary.printAllStatements()
+                myCalculusDictionary.ChooseStatement()
+        else:
+            while True:
+                myCalculusDictionary.loadChaptersinLinkedlist()
+                myCalculusDictionary.printAllChaptersinLinkedList()
+                myCalculusDictionary.ChooseChapterinLinkedList()
+                myCalculusDictionary.printAllCategories()
+                myCalculusDictionary.ChooseCategory()
+                myCalculusDictionary.printAllStatements()
+                myCalculusDictionary.ChooseStatement()
 
 
 
